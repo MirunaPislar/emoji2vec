@@ -4,7 +4,7 @@ This is my attempt to train, visualize and evaluate emoji embeddings as presente
 
 ## Overview
 * [src/](src) contains the code used to process the emoji descriptions as well as training and evaluating the emoji embeddings
-* [res/](res) contains the positive and negative samples used to train the emoji embeddings (from the original paper, available [here](https://github.com/uclmr/emoji2vec/blob/master/data/raw_training_data/emoji_joined.txt)) as well as a list of emoji frequencies; it should also contain the global vectors in a directory called *glove/* (from practical reasons they are not included in the repository, but downloading instructions are provided below)
+* [res/](res) contains the positive and negative samples used to train the emoji embeddings (originated [here](https://github.com/uclmr/emoji2vec/blob/master/data/raw_training_data/emoji_joined.txt)) as well as a list of emoji frequencies; it should also contain the global vectors in a directory called *glove/* (for practical reasons they are not included in the repository, but downloading instructions are provided below)
 * [models/](models) contains some pretrained emoji2vec models
 * [plots/](plots) contains some visualizations for the obtained emoji embeddings
 
@@ -43,7 +43,6 @@ Not like in the referenced paper, we used global vectors which need to be downlo
 ```{r, engine='bash', count_lines}
 ! wget -q http://nlp.stanford.edu/data/glove.6B.zip
 ! unzip -q -o glove.6B.zip
-! rm -f glove.6B.zip
 ```
 
 ## Arguments
@@ -61,7 +60,7 @@ All the hyperparameters can be easily changed through a command line interface a
 
 ## Training your own emoji2vec
 
-To train your own emoji embeddings run `python3 emoji2vec.py` and use the arguments described above to tune your hyperparameters. 
+To train your own emoji embeddings, run `python3 emoji2vec.py` and use the arguments described above to tune your hyperparameters. 
 
 Here is an example that will train 300-dimensional emoji vectors using the LSTM-based architecture with a maximum sequence length of 20, batch size of 8, 40 epochs, a dropout of 0.5, a learning rate of 0.0001 and 300 dense units:
 
@@ -127,7 +126,7 @@ Here, the top 200 most popular emojis have been projected in a 2D space:
 
 The trained emoji embeddings are evaluated on an analogy task, in a similar manner as word embeddings. Because these analogies are broadly interpreted as similarities between pairs of emojis, the embeddings are useful and extendible to other tasks if they can capture meaningful linear relationships between emojis directly from the vector space [[1]](https://arxiv.org/abs/1609.08359).
 
-According to ACL's [wiki page](https://aclweb.org/aclwiki/Analogy_(State_of_the_art)), a **proportional analogy** holds between two word pairs: `a-a* :: b-b*` (a is to a* as b is to b*). For example, Tokyo is to Japan as Paris is to France and king is to man as queen is to woman.
+According to ACL's [wiki page](https://aclweb.org/aclwiki/Analogy_(State_of_the_art)), a **proportional analogy** holds between two word pairs: `a-a* :: b-b*` (a is to a* as b is to b*). For example, Tokyo is to Japan as Paris is to France and a king is to a man as a queen is to a woman.
 
 Therefore, in the current analogy task, we aim to find the 5 most suitable emojis to solve `a - b + c = ?` by measuring the cosine distance between the trained emoji vectors. 
 
@@ -137,29 +136,23 @@ Here are some of the analogies obtained:
 
 💵 - 🇺🇸 + 🇪🇺 = ['🇦🇴', '🇸🇽', '🇮🇪', '🇭🇹', '🇰🇾']
 
-👪 - 👦 + 👧 = ['💛', '😢', '✋🏽', '🇲🇿', '❓']
-
 🕶 - ☀ + ⛈ = ['👞', '🐠', '🍖', '🕒', '🐎']
-
-🕶 - ☀ + ⛈ = ['🏔', '✨', '✊🏿', '🇸🇧', '🍚']
 
 ☂ - ⛈ + ☀ = ['🌫', '💅🏾', '🐎', '📛', '🇧🇿']
 
 🐅 - 🐈 + 🐕 = ['😿', '🐍', '👩', '🍥', '🈁']
 
-🐭 - 🐈 + 🐕 = ['💠', '🏩', '👭', '😿', '🐥']
-
 🌃 - 🌙 + 🌞 = ['🌚', '🌗', '😘', '👶🏼', '☹']
 
 😴 - 🛌 + 🏃 = ['🌞', '💁', '🏌', '☣', '😚']
-
-🏦 - 💰 + 🏫 = ['🇱🇸', '🕔', '👦', '🕔', '😓']
 
 🍣 - 🏯 + 🏰 = ['💱', '👍🏽', '🇧🇷', '🔌', '🍄']
 
 💉 - 🏥 + 🏦 = ['💇🏼', '✍', '🎢', '📲', '☪']
 
-😠 - 💰 + 🤑 = ['💁🏼', '🍣', '🏵', '⛓', '📧']
+💊 - 🏥 + 🏦 = ['📻', '😏', '🚌', '🈺', '🇼']
+
+😀 - 💰 + 🤑 = ['🚵🏼', '🇹🇲', '🌐', '🐌', '🎯']
 
 ## License
 
