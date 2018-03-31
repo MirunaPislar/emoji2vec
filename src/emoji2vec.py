@@ -168,10 +168,7 @@ def train_emoji2vec():
         train_words = sum_emb(word_sequences, embedding_matrix)
     print("The descriptions tensor shape is ", train_words.shape)
 
-    labels = np.array([[0, 1] if l == 0 else [1, 0] for l in all_emojis["label"].values])
-    print(labels)
     labels = to_categorical(np.asarray([label for label in all_emojis["label"].values]))
-    print(labels)
     print("The label tensor shape is ", labels.shape)
 
     # Build the emoji DNN model
